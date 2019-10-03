@@ -1,9 +1,9 @@
 def dijkstra(graph,startPoint,endPoint,visited=[],distances={},predecessors={}):
     # Est-ce que le point de départ et le poinr d'arrivé appartiennent au graphe ?
     if startPoint not in graph:
-        print('Le point de départ n\'existe pas.')
+        raise Exception('Le point de départ n\'existe pas.')
     if endPoint not in graph:
-        print('Le point d\'arrivé n\'existe pas.')  
+        raise Exception('Le point d\'arrivé n\'existe pas.')
     if startPoint != endPoint:
         # On met le poids du premier point à 0
         if not visited: 
@@ -53,6 +53,7 @@ graph = {
         '5':60
     },
     '5':{
+        # Pas de successeurs
     }
 }
 dijkstra(graph,startPoint,destinationPoint)

@@ -1,44 +1,44 @@
-def dijkstra(graph,position,dest,visited=[],distances={},predecessors={}):
+def dijkstra(graph,startPoint,endPoint,visited=[],distances={},predecessors={}):
     
     # On verifie si les 2 points sont dans notre réseau
-    if position not in graph:
+    if startPoint not in graph:
         print('Le point de départ n\'existe pas.')
-    if dest not in graph:
+    if endPoint not in graph:
         print('Le point d\'arrivé n\'existe pas.')  
-    if position != dest:
+    if startPoint != endPoint:
         # On commence en mettant le point de départ à 0
         if not visited: 
-            distances[position]=0
+            distances[startPoint]=0
         # Puis nous visitons les points voisins pour calculer leurs distances 
-        for neighbor in graph[position] :
+        for neighbor in graph[startPoint] :
             if neighbor not in visited:
-                new_distance = distances[position] + graph[position][neighbor]
-                if new_distance < distances.get(neighbor,float('inf')):
-                    distances[neighbor] = new_distance
-                    predecessors[neighbor] = position
+                newDistance = distances[startPoint] + graph[startPoint][neighbor]
+                if newDistance < distances.get(neighbor,float('inf')):
+                    distances[neighbor] = newDistance
+                    predecessors[neighbor] = startPoint
         # On marque les points voisins comme étant visités
-        visited.append(position)
+        visited.append(startPoint)
         # Maintenant que les points voisins sont visités, on choisit le prochain point avec le poids le plus bas.
 
         unvisited={}   
         for p in graph:
             if p not in visited:
                 unvisited[p] = distances.get(p,float('inf'))        
-        dijkstra(graph,min(unvisited, key=unvisited.get),dest,visited,distances,predecessors)
+        dijkstra(graph,min(unvisited, key=unvisited.get),endPoint,visited,distances,predecessors)
     else :
         # Maintenant que tous les points dans le réseau sont visités, on obtient le chemin 
         path=[]
-        pred=dest
+        pred=endPoint
         while pred != None:
             path.append(pred)
             pred=predecessors.get(pred,None)
         path.reverse()
-        print('Le chemin le plus court : '+str(path)+" avec une distance de "+str(distances[dest]))
+        print("Le chemin le plus court : {} avec une distance de {} ".format(path, distances[endPoint]))
 
 
     
-start = input('Point de départ : ').lower()
-dest = input ('Point d\'arrivé : ').lower()
+startPoint = input('Point de départ : ').lower()
+destinationPoint = input ('Point d\'arrivé : ').lower()
 # Le réseau est donné sous la forme de "graph"
 graph = {
     'a':{
@@ -64,4 +64,4 @@ graph = {
         'd':1
     }
 }
-dijkstra(graph,start,dest)
+dijkstra(graph,startPoint,destinationPoint)

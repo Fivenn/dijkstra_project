@@ -1,5 +1,5 @@
 def dijkstra(graph,startPoint,endPoint,visited=[],distances={},predecessors={}):
-    # Est-ce que le point de départ et le poinr d'arrivé appartiennent au graphe ?
+    # Est-ce que le point de départ et le point d'arrivé appartiennent au graphe ?
     if startPoint not in graph:
         raise Exception('Le point de départ n\'existe pas.')
     if endPoint not in graph:
@@ -8,20 +8,21 @@ def dijkstra(graph,startPoint,endPoint,visited=[],distances={},predecessors={}):
         # On met le poids du premier point à 0
         if not visited: 
             distances[startPoint]=0
-        # On visite les successeurs pour calculer la distance
+        # On visite les successeurs de ce point pour calculer la distance
         for neighbor in graph[startPoint] :
             if neighbor not in visited:
                 newDistance = distances[startPoint] + graph[startPoint][neighbor]
                 if newDistance < distances.get(neighbor,float('inf')):
                     distances[neighbor] = newDistance
                     predecessors[neighbor] = startPoint
-        # On marque les points voisins comme étant visités
+        # On marque le point de départ comme étant visités
         visited.append(startPoint)
-        # Parmis les points visités, on choisit celui avec le poids le plus bas
-        unvisited={}   
+        unvisited={} 
+         # On regarde chaque point du graphe et on marque ceux qui ne sont pas visités 
         for p in graph:
             if p not in visited:
-                unvisited[p] = distances.get(p,float('inf'))        
+                unvisited[p] = distances.get(p,float('inf'))
+        # Fonction récursive permettant de travailler sur un graphe de taille plus petite ne comportant pas le point sélectionné       
         dijkstra(graph,min(unvisited, key=unvisited.get),endPoint,visited,distances,predecessors)
     else :
         # Une fois tout les points visités, on liste le meilleur chemin de routage
@@ -30,7 +31,7 @@ def dijkstra(graph,startPoint,endPoint,visited=[],distances={},predecessors={}):
         while pred != None:
             path.append(pred)
             pred=predecessors.get(pred,None)
-        # path.reverse()
+        path.reverse()
         print("Le chemin le plus court : {} avec une distance de {} ".format(path, distances[endPoint]))
 
 startPoint = input('Point de départ : ').lower()
